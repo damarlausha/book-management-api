@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<script>
+    if (!sessionStorage.getItem("jwtToken")) {
+        window.location.href = "login.html";
+    }
+</script>
+
+<header class="top-header">
+    <div class="header-content">
+        <div>
+            <h1>📚 Book Management System</h1>
+            <p>Manage your books easily</p>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">↪ Logout</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="add-section">
+        <div class="section-title">
+            <span class="icon">➕</span>
+            <h2>Add New Book</h2>
+        </div>
+
+        <form id="bookForm">
+
+            <div class="form-group">
+                <label for="title">Book Title</label>
+                <input
+                        type="text"
+                        id="title"
+                        placeholder="Enter book title"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input
+                        type="text"
+                        id="author"
+                        placeholder="Enter author name"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input
+                        type="number"
+                        id="price"
+                        placeholder="Enter price"
+                        step="0.01"
+                        min="0.01"
+                        required
+                >
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Add Book
+            </button>
+
+        </form>
+    </section>
+
+    <section class="books-section">
+
+        <div class="section-title books-title">
+            <span class="icon">📚</span>
+            <h2>Books</h2>
+        </div>
+
+        <p id="message"></p>
+
+        <div id="booksContainer" class="books-grid"></div>
+
+    </section>
+
+</main>
+
+<!-- EDIT MODAL -->
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeEditModal()">&times;</span>
+
+        <div class="modal-icon">✏️</div>
+
+        <h2>Edit Book</h2>
+
+        <form id="editForm">
+
+            <input type="hidden" id="editId">
+
+            <div class="form-group">
+                <label for="editTitle">Book Title</label>
+                <input
+                        type="text"
+                        id="editTitle"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="editAuthor">Author</label>
+                <input
+                        type="text"
+                        id="editAuthor"
+                        required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="editPrice">Price</label>
+                <input
+                        type="number"
+                        id="editPrice"
+                        step="0.01"
+                        min="0.01"
+                        required
+                >
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Update Book
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- DELETE MODAL -->
+
+<div id="deleteModal" class="modal">
+
+    <div class="delete-box">
+
+        <div class="delete-icon">🗑️</div>
+
+        <h2>Delete Book</h2>
+
+        <p>Are you sure you want to delete this book?</p>
+
+        <div class="delete-actions">
+            <button class="cancel-btn" onclick="closeDeleteModal()">
+                Cancel
+            </button>
+
+            <button class="delete-confirm-btn" onclick="confirmDelete()">
+                Delete
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

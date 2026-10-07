@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Book Management System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .login-container {
+            width: 380px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #message {
+            text-align: center;
+            color: red;
+            margin-top: 15px;
+            min-height: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo">📚</div>
+
+    <h2>Book Management System</h2>
+
+    <p class="subtitle">Login to manage your books</p>
+
+    <form id="loginForm">
+
+        <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                required
+        >
+
+        <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+        >
+
+        <button type="submit"> Login</button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <div class="footer">
+        Secure JWT Authentication
+    </div>
+
+</div>
+
+<script>
+
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    loginForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:8080/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Login failed");
+            }
+
+            sessionStorage.setItem("jwtToken", result.token);
+
+            window.location.href = "index.html";
+
+        } catch (error) {
+
+            message.textContent = "Login failed. Check username and password.";
+
+            console.error(error);
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
